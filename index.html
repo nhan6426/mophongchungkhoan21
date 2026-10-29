@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo Giữa Kỳ - Mô Phỏng Giá Cổ Phiếu ABC-21</title>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+    <!-- Header Navigation -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg border border-emerald-500/20">
+                    <i data-lucide="line-chart" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Mô Phỏng Chứng Khoán</h1>
+                    <p class="text-xs text-slate-400">Báo Cáo Giữa Kỳ - Mã Dữ Liệu: <span class="text-emerald-400 font-semibold">abc-21.csv</span></p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-xs rounded-full border border-emerald-500/20 font-medium">
+                    Hạn nộp: 22/10/2026
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+        <!-- Overview KPIs -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+                <p class="text-xs text-slate-400 mb-1">Giá Cao Nhất Năm (Tháng 5)</p>
+                <div class="text-2xl font-bold text-emerald-400">14,806.22 <span class="text-xs font-normal text-slate-400">VND</span></div>
+                <div class="text-xs text-slate-500 mt-1">Đạt đỉnh tại ngày thứ 131 (Quý 2)</div>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+                <p class="text-xs text-slate-400 mb-1">Giá Thấp Nhất Năm (Tháng 11)</p>
+                <div class="text-2xl font-bold text-rose-400">958.79 <span class="text-xs font-normal text-slate-400">VND</span></div>
+                <div class="text-xs text-slate-500 mt-1">Đáy tại ngày thứ 309 (Quý 4)</div>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+                <p class="text-xs text-slate-400 mb-1">Biên Độ Dao Động Lớn Nhất</p>
+                <div class="text-2xl font-bold text-amber-400">13,847.43 <span class="text-xs font-normal text-slate-400">VND</span></div>
+                <div class="text-xs text-slate-500 mt-1">Chênh lệch Max - Min toàn năm</div>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+                <p class="text-xs text-slate-400 mb-1">Tháng Biến Động Mạnh Nhất</p>
+                <div class="text-2xl font-bold text-purple-400">Tháng 5</div>
+                <div class="text-xs text-slate-500 mt-1">Độ lệch chuẩn: 2,355.53 VND</div>
+            </div>
+        </div>
+
+        <!-- Section 1: Video Simulation -->
+        <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h2 class="text-xl font-bold flex items-center gap-2">
+                        <i data-lucide="video" class="w-5 h-5 text-emerald-400"></i>
+                        Video Mô Phỏng Animation (Matplotlib)
+                    </h2>
+                    <p class="text-sm text-slate-400">Hiển thị đồ thị nến (trên) và đường biến động continuous band (dưới)</p>
+                </div>
+            </div>
+            <div class="aspect-video bg-black rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center relative">
+                <video controls class="w-full h-full object-contain">
+                    <source src="simulation.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ thẻ video HTML5. Hãy đặt file simulation.mp4 cùng thư mục với trang web này.
+                </video>
+            </div>
+        </section>
+
+        <!-- Section 2: Charts & Data Analysis -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Monthly Bar Chart -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 space-y-4">
+                <h3 class="font-semibold text-lg flex items-center gap-2">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5 text-indigo-400"></i>
+                    Giá Trung Bình & Độ Biến Động Hàng Tháng
+                </h3>
+                <div class="h-64">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Quarterly Distribution -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 space-y-4">
+                <h3 class="font-semibold text-lg flex items-center gap-2">
+                    <i data-lucide="pie-chart" class="w-5 h-5 text-emerald-400"></i>
+                    So Sánh Biến Động Các Quý
+                </h3>
+                <div class="h-64">
+                    <canvas id="quarterlyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Questions & Answers -->
+        <section class="bg-slate-900/80 border border-slate-800 rounded-xl p-6 space-y-6">
+            <h2 class="text-xl font-bold flex items-center gap-2 border-b border-slate-800 pb-3">
+                <i data-lucide="help-circle" class="w-5 h-5 text-amber-400"></i>
+                Nội Dung Trả Lời Câu Hỏi Báo Cáo (1 - 6)
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                <div class="bg-slate-950/50 p-4 rounded-lg border border-slate-800 space-y-2">
+                    <h4 class="font-semibold text-emerald-400">1 & 2. Đánh giá biến động Tháng & Quý</h4>
+                    <p class="text-slate-300">
+                        • <strong>Tháng 5</strong> có mức giá trung bình cao nhất (9,055.76 VND) và biên độ dao động mạnh nhất (10,405.91 VND).<br>
+                        • <strong>Quý 2</strong> đại diện cho giai đoạn bùng nổ giá cổ phiếu khi ghi nhận mức đỉnh 14,806.22 VND.<br>
+                        • <strong>Quý 4</strong> là khoảng thời gian thoái lùi mạnh, giá duy trì ở mức thấp với trung bình chỉ 1,925.22 VND.
+                    </p>
+                </div>
+
+                <div class="bg-slate-950/50 p-4 rounded-lg border border-slate-800 space-y-2">
+                    <h4 class="font-semibold text-emerald-400">3. Ngày giao dịch bất thường</h4>
+                    <p class="text-slate-300">
+                        • Tất cả các ngày giao dịch đều chạm các ngưỡng giá giới hạn (Sàn/Trần/Tham chiếu) do biên độ khống chế 10% của thị trường.<br>
+                        • Cổ phiếu ghi nhận nhiều chuỗi tăng trần liên tiếp ở Quý 2 và giảm sàn liên tục ở Quý 3.
+                    </p>
+                </div>
+
+                <div class="bg-slate-950/50 p-4 rounded-lg border border-slate-800 space-y-2">
+                    <h4 class="font-semibold text-emerald-400">5. Xu hướng & Biên độ lớn nhất</h4>
+                    <p class="text-slate-300">
+                        • <strong>Xu hướng:</strong> Tăng trưởng mạnh đầu năm, đạt đỉnh ở giữa năm (tháng 5) và suy giảm dần về cuối năm.<br>
+                        • <strong>Biên độ lớn nhất:</strong> 13,847.43 VND (Đỉnh 14,806.22 VND ở ngày 131 và Đáy 958.79 VND ở ngày 309).
+                    </p>
+                </div>
+
+                <div class="bg-slate-950/50 p-4 rounded-lg border border-slate-800 space-y-2">
+                    <h4 class="font-semibold text-emerald-400">6. Vì sao đường đi xuống nhưng có màu xanh?</h4>
+                    <p class="text-slate-300">
+                        • Xu hướng tổng thể của đường biểu diễn đi xuống thể hiện giá giảm trong trung hạn.<br>
+                        • Nến/điểm vẫn có <strong>màu xanh</strong> vì trong phiên giao dịch của ngày đó, <em>giá đóng cửa vẫn cao hơn giá tham chiếu</em> (hoặc giá mở cửa) của ngày hôm đó.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+        const monthlyMeans = [6606.49, 4406.07, 3417.14, 8017.67, 9055.76, 2394.19, 3051.97, 3331.38, 2246.23, 1630.09, 1677.37, 2460.21];
+        const monthlyStds = [1332.29, 815.13, 558.44, 2218.01, 2355.53, 737.96, 830.15, 579.68, 301.64, 329.17, 568.01, 512.04];
+
+        new Chart(document.getElementById('monthlyChart'), {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        label: 'Giá Trung Bình (VND)',
+                        data: monthlyMeans,
+                        backgroundColor: 'rgba(99, 102, 241, 0.7)',
+                        borderColor: '#6366f1',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Độ Biến Động - Std (VND)',
+                        data: monthlyStds,
+                        backgroundColor: 'rgba(236, 72, 153, 0.7)',
+                        borderColor: '#ec4899',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } },
+                    x: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } }
+                },
+                plugins: { legend: { labels: { color: '#cbd5e1' } } }
+            }
+        });
+
+        new Chart(document.getElementById('quarterlyChart'), {
+            type: 'line',
+            data: {
+                labels: ['Quý 1', 'Quý 2', 'Quý 3', 'Quý 4'],
+                datasets: [
+                    {
+                        label: 'Giá Trung Bình',
+                        data: [4823.36, 6517.41, 2883.38, 1925.22],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Giá Cao Nhất',
+                        data: [11000.00, 14806.22, 5150.18, 3516.89],
+                        borderColor: '#f59e0b',
+                        borderDash: [5, 5]
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } },
+                    x: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } }
+                },
+                plugins: { legend: { labels: { color: '#cbd5e1' } } }
+            }
+        });
+    </script>
+</body>
+</html>
